@@ -1,0 +1,28 @@
+.draft-icon{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.draft-icon:hover{
+    cursor: pointer;
+}
+.draft-icon-box{
+    width: 100%;
+    background: #F7F8FA;
+    border-radius: 5px 5px 0 0;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.activeClass{
+    background: #E9EAEC;
+    color: #5294EF;
+}
+.draft-icon-image{
+    width: 35%;
+}
+i{
+    font-style: initial;
+}
