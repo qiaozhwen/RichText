@@ -11,6 +11,7 @@
     width: 100%;
     background: #F7F8FA;
     border-radius: 5px 5px 0 0;
+    flex-wrap: wrap;
     min-height: 40px;
     display: flex;
     align-items: center;
@@ -25,4 +26,18 @@
 }
 i{
     font-style: initial;
+}
+.box-down, .box-up{
+    width: 100%;
+}
+.hover-box{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    left: -50px;
+    box-shadow: 1px 1px 1px 1px #c7c7c7;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: #fff;
 }

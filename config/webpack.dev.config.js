@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 console.log(__dirname, '-------------')
 module.exports = {
     mode: 'development',
-    entry: './index.js',
+    entry: './index.tsx',
     output: {
         path: __dirname + "/build",
         filename: "bundle.js"
@@ -27,6 +27,11 @@ module.exports = {
                     esModule: false, // 这里设置为false
                 }
             },
+            {
+                test: /\.(tsx|ts)?$/,
+                use: 'awesome-typescript-loader',
+                exclude: /node_modules/
+            }
         ]
     },
     devServer: {
@@ -42,6 +47,6 @@ module.exports = {
         })
     ],
     resolve: {
-        extensions: ['.js', '.jsx'], //后缀名自动补全
+        extensions: ['.js', '.jsx', ".ts", ".tsx"], //后缀名自动补全
     }
 };

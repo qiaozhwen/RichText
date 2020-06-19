@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Editor, EditorState, convertToRaw} from 'draft-js'
-import {StyleControl} from './component_modules/StyleControl.jsx'
+import {StyleControl} from './component_modules/StyleControl'
 import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';
 import { RichUtils } from 'draft-js';
@@ -15,9 +15,9 @@ const styles = {
     }
 };
 let newlineModal = false;
-const options = {
+const options: any = {
     blockRenderers: {
-        unstyled: (block) => {
+        unstyled: (block: any) => {
             const data = block.getText();
             if (!data) {
                 return '<br/>';
@@ -30,18 +30,18 @@ const editorStyleMap = {
         backgroundColor: '#F2F2F2'
     }
 };
-const checkHData = ['<br/>', '<h1><br/></h1>', '<h2><br/></h2>', '<h3><br/></h3>', '<h4><br/></h4>', '<h5><br/></h5>', '<h6><br/></h6>'];
+// const checkHData = ['<br/>', '<h1><br/></h1>', '<h2><br/></h2>', '<h3><br/></h3>', '<h4><br/></h4>', '<h5><br/></h5>', '<h6><br/></h6>'];
 let isFocus = false;
-export default class App extends Component{
-    constructor(props) {
+export default class App extends Component<any, any>{
+    constructor(props: any) {
         super(props);
         const htmlValue = !!props.value ? props.value.replace(/<br\/>/g, '<div><br/></div>'): ' ';
-        const state = stateFromHTML(htmlValue);
+        const state = stateFromHTML(htmlValue || ' ');
         this.state = {editorState: EditorState.createWithContent(state)};
     }
 
-    onChange (editorStateValue) {
-        this.setState({editorState: editorStateValue})
+    onChange (editorStateValue: any) {
+        this.setState({editorState: editorStateValue});
         const blockStyle = RichUtils.getCurrentBlockType(editorStateValue);
         if (newlineModal) {
             const newEditState = RichUtils.toggleBlockType(
@@ -49,27 +49,28 @@ export default class App extends Component{
                 blockStyle
             );
             Promise.resolve().then(() => {
-                this.setState({editorState: newEditState})
+                this.setState({editorState: newEditState});
                 newlineModal = false;
             });
         }
         const html = stateToHTML(editorStateValue.getCurrentContent(), options);
-        this.submitData(html, editorStateValue);
+        console.log('aaaaaaaaaaaa', html);
+        this.submitData(html);
     }
-    submitData(data, _editorStateValue) {
-        let result = '';
-        if (!checkHData.includes(data)) {
-            result = data;
-        }
-        if (!!result) {
+    submitData(data: any) {
+        // let result = '';
+        // if (!checkHData.includes(data)) {
+        // }
+        // result = data;
+        if (!!data) {
             isFocus = false;
         }
-        (!isFocus && this.props.onChange) && this.props.onChange(result);
+        (!isFocus && this.props.onChange) && this.props.onChange(data);
     }
-    onInlineTypeChange(editorState) {
+    onInlineTypeChange(editorState: any) {
         this.onChange(editorState);
     }
-    handleReturn(event, editorStateValue) {
+    handleReturn(event: any, editorStateValue: any): any {
         event.preventDefault();
         const selectionState = editorStateValue.getSelection();
         const focusOffset = selectionState.getFocusOffset();
@@ -83,8 +84,9 @@ export default class App extends Component{
         } else {
             newlineModal = false;
         }
+        return 'not-handled'
     }
-    handleKeyCommand(command, editorState) {
+    handleKeyCommand(command: any, editorState: any) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
             this.onChange(newState);
@@ -115,7 +117,6 @@ export default class App extends Component{
                             return 'not-handled';
                         }}
                         handleKeyCommand={this.handleKeyCommand.bind(this)}
-                        handleReturn={this.handleReturn.bind(this)}
                         customStyleMap={editorStyleMap}
                     />
                 </div>
